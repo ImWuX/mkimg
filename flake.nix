@@ -7,21 +7,18 @@
     outputs = { nixpkgs, flake-utils, ... } @ inputs: flake-utils.lib.eachDefaultSystem (system:
         let
             pkgs = import nixpkgs { inherit system; };
-            inherit (pkgs) lib stdenv fetchFromGitLab;
+            inherit (pkgs) lib stdenv mkShell fetchFromGitLab buildGoModule;
         in {
-            packages.default = stdenv.mkDerivation {
+            packages.default = buildGoModule rec {
                 pname = "mkimg";
-                version = "";
+                version = "2.0.1";
 
-                src = fetchFromGitLab {
-                    domain = "git.thenest.dev";
-                    owner = "wux";
-                    repo = pname;
-                    rev = version;
-                    hash = lib.fakeHash;
+                src = builtins.path {
+                    name = pname;
+                    path = ./.;
                 };
 
-                vendorHash = lib.fakeHash;
+                vendorHash = "sha256-AipbeksiApEbTrjpR3TiazOemI/QnG3Zk0IbBphr3o4=";
 
                 meta = {
                     description = "mkimg is a tiny tool to simplify the process of creating partitioned disk images.";
