@@ -1,4 +1,4 @@
-module github.com/wux/mkimg
+module git.thenest.dev/wux/mkimg
 
 go 1.22.3
 
